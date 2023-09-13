@@ -7,7 +7,6 @@ const Card = ({ dentist }) => {
   const { dispatch } = useContextGlobal();
 
   const addFav = ()=>{
-    // Aqui iria la logica para agregar la Card en el localStorage
     dispatch({type: 'ADD_FAVS', payload: dentist})
   }
 
