@@ -1,36 +1,47 @@
-import { createContext, useContext, useState, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import axios from 'axios';
-
-export const initialState = {theme: "", data: []}
 
 const localFavs = JSON.parse(localStorage.getItem('favs'))
 const initialFavState = localFavs ? localFavs : []
 
+export const initialState = {
+  dentists:[], 
+  dentistDetail:[],
+  favs: initialFavState, 
+  theme: true
+}
+
 export const ContextGlobal = createContext(undefined);
 
-export const ContextProvider = ({ children }) => {
-  //Aqui deberan implementar la logica propia del Context, utilizando el hook useMemo
-
-  const reducer = (state, action) => {
-
+const reducer = (state, action) => {
+  switch(action.type) {
+    case 'GET_DENTISTS':
+      return {...state, dentists: action.payload} 
+    case 'ADD_FAVS':
+      return {...state, favs: [...state.favs, action.payload]}
+    case 'SWITCH_THEME':
+      return {...state, theme: !state.theme}
+    default:
+      throw new Error()
   }
+}
 
-  const [dentists, setDentist] = useState([]);
-  const [favs, setFavs] = useState(initialFavState);
+export const ContextProvider = ({ children }) => {
+  const [dentistsState, dispatch] = useReducer(reducer, initialState);
 
   const url = 'https://jsonplaceholder.typicode.com/users'
 
   useEffect(() => {
     axios(url)
-    .then(res => setDentist(res.data))
+    .then(res => dispatch({type: 'GET_DENTISTS', payload: res.data}))
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('Favs', JSON.stringify(favs))
-  }, [favs])
+    localStorage.setItem('Favs', JSON.stringify(dentistsState.favs))
+  }, [dentistsState.favs])
 
   return (
-    <ContextGlobal.Provider value={{dentists, favs, setFavs}}>
+    <ContextGlobal.Provider value={{dentistsState, dispatch}}>
       {children}
     </ContextGlobal.Provider>
   );
