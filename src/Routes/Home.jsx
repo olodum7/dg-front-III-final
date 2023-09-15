@@ -9,7 +9,6 @@ const Home = () => {
 
   return (
     <main className={dentistsState.theme ? 'light' : 'dark'}>
-      <h1>Home</h1>
       <div className='card-grid'>
         { dentistsState.dentists.map(dentist => (
           <Card dentist={dentist} key={dentist.id}/>

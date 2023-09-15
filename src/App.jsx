@@ -6,6 +6,9 @@ import Detail from "./Routes/Detail";
 import Favs from "./Routes/Favs";
 import Contact from "./Routes/Contact";
 
+// Toast notification
+import { ToastContainer } from 'react-toastify';
+
 function App() {
   return (
     <div className="App">
@@ -17,6 +20,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
+      <ToastContainer />
     </div>
   );
 }
