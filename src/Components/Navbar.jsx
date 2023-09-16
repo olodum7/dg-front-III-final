@@ -1,27 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useContextGlobal } from "../Components/utils/global.context";
-import LogoColor from "./../logo-color.svg"
-import LogoBlanco from "./../logo-white.svg"
+import LogoColor from "./../logo-color.svg";
+import LogoBlanco from "./../logo-white.svg";
 
 const Navbar = () => {
   const { dentistsState, dispatch } = useContextGlobal();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const switchTheme = () => {
     dispatch({ type: "SWITCH_THEME", payload: "" });
   };
 
-  const location = useLocation();
-
-  let toggleBtn = document.querySelector("#navbar-toggle");
-  let collapse = document.querySelector("#navbar-collapse");
-
-  if (toggleBtn) {
-    toggleBtn.onClick = () => {
-      collapse.classNameList.toggle("hidden");
-      collapse.classNameList.toggle("flex");
-    };
-  }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <nav className={`${dentistsState.theme ? 'light' : 'dark'} bg-white py-2 md:py-4 w-full`}>
@@ -35,7 +29,7 @@ const Navbar = () => {
           </Link>
           <button
             className="flex items-center px-3 py-2 text-indigo-500 border border-indigo-500 rounded navbar-burger md:hidden"
-            id="navbar-toggle"
+            onClick={toggleMenu}
           >
             <svg
               className="w-3 h-3 fill-current"
@@ -49,31 +43,27 @@ const Navbar = () => {
         </div>
 
         <div
-          className="hidden md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0"
-          id="navbar-collapse"
+          className={`${isMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0`}
         >
           <Link
             to="/"
-            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/' ? 'active' : ''  }`}
+            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/' ? 'active' : ''}`}
           >
             Home
           </Link>
           <Link
             to="/contact"
-            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/contact' ? 'active' : ''  }`}
+            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/contact' ? 'active' : ''}`}
           >
             Contact
           </Link>
           <Link
             to="/favs"
-            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/favs' ? 'active' : ''  }`}
+            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/favs' ? 'active' : ''}`}
           >
             Favs
           </Link>
 
-          
-
-          {/* Dark mode toggle */}
           <button
             id="theme-toggle"
             onClick={switchTheme}

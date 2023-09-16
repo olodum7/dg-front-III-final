@@ -20,7 +20,7 @@ const Detail = () => {
   }, []);
 
   return (
-    <main className={`${dentistsState.theme ? "light" : "dark"} py-20 mx-auto md:flex md:items-center md:justify-center w-full min-h-[86vh]`}>
+    <main className={`${dentistsState.theme ? "light" : "dark"} py-20 mx-auto md:flex md:items-center md:justify-center w-full min-h-[86vh] overflow-x-auto`}>
       <table className="text-md text-left text-gray-500 dark:text-gray-400 container px-4">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
