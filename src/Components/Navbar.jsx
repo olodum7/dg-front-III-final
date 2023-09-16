@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContextGlobal } from "../Components/utils/global.context";
-import "./../styles.css";
+import LogoColor from "./../logo-color.svg"
+import LogoBlanco from "./../logo-white.svg"
 
 const Navbar = () => {
   const { dentistsState, dispatch } = useContextGlobal();
@@ -9,6 +10,8 @@ const Navbar = () => {
   const switchTheme = () => {
     dispatch({ type: "SWITCH_THEME", payload: "" });
   };
+
+  const location = useLocation();
 
   let toggleBtn = document.querySelector("#navbar-toggle");
   let collapse = document.querySelector("#navbar-collapse");
@@ -22,11 +25,14 @@ const Navbar = () => {
 
   return (
     <nav className={`${dentistsState.theme ? 'light' : 'dark'} bg-white py-2 md:py-4 w-full`}>
-      <div className="container px-4 mx-auto md:flex md:items-center">
+      <div className="container-fluid px-4 mx-auto md:flex md:items-center w-11/12">
         <div className="flex justify-between items-center">
-          <a href="#" className="font-bold text-xl text-indigo-600">
-            FWR
-          </a>
+          <Link
+            to="/"
+            className="block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600"
+          >
+            <img src={dentistsState.theme ? LogoColor : LogoBlanco} className="mb-4" width="200" alt="" />
+          </Link>
           <button
             className="flex items-center px-3 py-2 text-indigo-500 border border-indigo-500 rounded navbar-burger md:hidden"
             id="navbar-toggle"
@@ -48,22 +54,24 @@ const Navbar = () => {
         >
           <Link
             to="/"
-            className="block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600"
+            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/' ? 'active' : ''  }`}
           >
             Home
           </Link>
           <Link
             to="/contact"
-            className="block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600"
+            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/contact' ? 'active' : ''  }`}
           >
             Contact
           </Link>
           <Link
             to="/favs"
-            className="block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600"
+            className={`block mt-4 mr-10 pt-2 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600 ${location.pathname === '/favs' ? 'active' : ''  }`}
           >
             Favs
           </Link>
+
+          
 
           {/* Dark mode toggle */}
           <button
@@ -74,7 +82,7 @@ const Navbar = () => {
               !dentistsState.theme
                 ? "text-gray-300 border-gray-300"
                 : "text-gray-800 border-gray-500"
-            } border-2 rounded-lg text-sm p-2 block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600`}
+            } border-2 rounded-lg text-sm p-2 block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-purple-200`}
           >
             <svg
               id="theme-toggle-dark-icon"

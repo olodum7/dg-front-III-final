@@ -6,6 +6,8 @@ export const reducer = (state, action) => {
             return
         case 'ADD_FAVS':
             return {...state, favs: [...state.favs, action.payload] }
+        case 'CLEAR_FAVS':
+            return {...state, favs: [] };
         case 'REMOVE_FAVS':
             return {
                 ...state,

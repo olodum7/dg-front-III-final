@@ -2,11 +2,14 @@ import React from "react";
 import { useContextGlobal } from "./utils/global.context";
 import { Link } from "react-router-dom";
 import showToastMessage from "./utils/toast.notifications";
+import animalImages from "./utils/mock.dentist.images";
 
 const Card = ({ dentist }) => {
   const { dentistsState, dispatch } = useContextGlobal(); // Acceder al estado global
 
   const isFavorite = dentistsState.favs.some((item) => item.id === dentist.id); // Verificar si es un favorito
+
+  const imageUrl = animalImages.find(image => image.id === dentist.id)?.url || ""; // Mock con imágenes para cada card
 
   const addFav = () => {
     let favs = dentistsState.favs || []; // Obtener la lista de favoritos del estado global
@@ -23,11 +26,11 @@ const Card = ({ dentist }) => {
   };
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg mx-auto my-8 transform hover:translate-y-2 hover:shadow-xl transition duration-300 card">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg mx-auto mx-2 my-2 transform hover:translate-y-2 hover:shadow-xl transition duration-300 card">
       <img
         className="w-full"
-        src="https://tailwindcss.com/img/card-top.jpg"
-        alt="Sunset in the mountains"
+        src={imageUrl}
+        alt={"Photo of " + dentist.name}
       />
 
       <div className="px-6 py-4 card-body">
@@ -36,9 +39,9 @@ const Card = ({ dentist }) => {
 
         <Link
           to={"/detail/" + dentist.id}
-          className="bg-blue-500 hover:bg-blue-400 text-white hover:text-white text-center px-8 py-2 w-80 inline-block mt-10 rounded font-medium"
+          className="bg-blue-500 hover:bg-blue-400 text-white hover:text-white text-center px-8 py-2 w-80 inline-block mt-10 rounded font-medium uppercase"
         >
-          SABER MÁS
+          Saber más
         </Link>
 
         <button onClick={addFav} className="fav-btn">
